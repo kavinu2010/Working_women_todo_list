@@ -1,0 +1,64 @@
+<!-- todo/templates/todo/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Women Daily Tasks{% endblock %}</title>
+    <!-- Bootstrap CSS for styling -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'task-list' %}">Women Daily Tasks</a>
+      <!-- Add more navigation links here if needed -->
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mt-4">
+      <!-- Display Django Messages (if any) -->
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %} {% endif %}
+
+      <!-- Content Block -->
+      {% block content %}
+      <!-- Child templates will render content here -->
+      {% endblock %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Optional JavaScript for dynamic form fields -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const isRecurringCheckbox = document.getElementById("id_is_recurring");
+        const recurrenceIntervalSelect = document.getElementById(
+          "id_recurrence_interval"
+        );
+
+        function toggleRecurrence() {
+          if (isRecurringCheckbox && recurrenceIntervalSelect) {
+            if (isRecurringCheckbox.checked) {
+              recurrenceIntervalSelect.disabled = false;
+            } else {
+              recurrenceIntervalSelect.disabled = true;
+              recurrenceIntervalSelect.value = "";
+            }
+          }
+        }
+
+        if (isRecurringCheckbox) {
+          isRecurringCheckbox.addEventListener("change", toggleRecurrence);
+          toggleRecurrence(); // Initialize on page load
+        }
+      });
+    </script>
+  </body>
+</html>

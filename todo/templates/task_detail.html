@@ -1,0 +1,23 @@
+<!-- todo/templates/todo/task_detail.html -->
+
+{% extends 'base.html' %} {% block title %}{{ task.title }}{% endblock %} {%
+block content %}
+<h2>{{ task.title }}</h2>
+<p><strong>Category:</strong> {{ task.category }}</p>
+<p><strong>Priority:</strong> {{ task.priority }}</p>
+<p><strong>Status:</strong> {{ task.status }}</p>
+<p>
+  <strong>Due Date:</strong>
+  {% if task.due_date %} {{ task.due_date|date:"F j, Y" }} {% else %} N/A {%
+  endif %}
+</p>
+<p><strong>Description:</strong></p>
+<p>{{ task.description }}</p>
+<p><strong>Recurring:</strong> {{ task.is_recurring|yesno:"Yes,No" }}</p>
+{% if task.is_recurring %}
+<p><strong>Recurrence Interval:</strong> {{ task.recurrence_interval }}</p>
+{% endif %}
+<a href="{% url 'task-update' task.pk %}" class="btn btn-info">Edit</a>
+<a href="{% url 'task-delete' task.pk %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'task-list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}
